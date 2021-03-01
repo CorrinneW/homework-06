@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <title>Weather Dashboard</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/style.css">
+    </head>
+    <body>
+        <h1>Weather Dashboard</h1>
+        <div class="container" id="sidebar">
+            <div>
+                <h3>Search for a City</h3>
+                <input type="search" placeholder="Columbus, OH"></input>
+                <input type="button"></input>
+            </div>
+            <div class="container" id="searchHistory"></div>
+        </div>
+
+        <div class="container" id="currentForecast">
+            <div id="cityDate"></div>
+            <div class="container" id="currentTemp"></div>
+            <h2>5-Day Forecast</h2>
+            <div class="container" id="forecastCards"></div>
+        </div>
+    </body>
+</html>
