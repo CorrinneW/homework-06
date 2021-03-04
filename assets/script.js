@@ -18,21 +18,19 @@ const history =  JSON.parse(localStorage.getItem('inputCity')) || [];
 //filters duplicates from history
 const uniqueHistory = [...new Set(history)];
 
-//get last city in history array
-const lastCity = history[history.length -1].value;
-
-//convert lastCity to geographic coordinates
-geolocation = 'https://api.openweathermap.org/geo/1.0/direct?q='+ lastCity + '&appid=26296fad5e8eec50db14b2b3a9c853be';
 
 //call openweathermap data for lastCity
-function buildContent() {
+function buildContent(city) {
+
+  geolocation = 'https://api.openweathermap.org/geo/1.0/direct?q='+ city + '&appid=26296fad5e8eec50db14b2b3a9c853be';
+
   fetch(geolocation)
     .then(response => response.json())
     .then(data => {
       let last = data[data.length-1];
       lat = last.lat;
       lon = last.lon;
-      onecall = 'https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+ lon +'&exclude=minutely,hourly,alerts&appid=26296fad5e8eec50db14b2b3a9c853be'
+      onecall = 'https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+ lon +'&units=imperial&exclude=minutely,hourly,alerts&appid=26296fad5e8eec50db14b2b3a9c853be'
 
       fetch(onecall)
         .then(response => response.json())
@@ -46,9 +44,11 @@ function buildContent() {
 searchButton.click(function () {
   inputCity = searchBar.val()
   //push current inputCity to cityArray in local storage
+  //history.inlcudes or contains (check MDN)
+  //if (!history.includes) then ignore
   history.push(inputCity);
   localStorage.setItem('inputCity', JSON.stringify(history));
-  buildContent();
+  buildContent(inputCity);
   // location.reload();  
 });
 
