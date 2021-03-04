@@ -40,13 +40,25 @@ searchButton.click(function () {
         .then(response => response.json())
         .then(data => {
           console.log(data);
+          buildCurrent();
+          buildForecast();
         })
-    });  
+    });
+  
+  location.reload();  
 });
 
 //create search history buttons
+for(i = 0; i < uniqueHistory.length; i++) {
+  searchHistory.prepend(
+    $('<button/>')
+      .addClass('.historyBtn')
+      .text(uniqueHistory[i])
+  )
+}
 
+// //Current weather
+// function buildCurrent() {};
 
-//Current weather
-
-//forecast cards
+// //forecast cards
+// function buildForecast();
