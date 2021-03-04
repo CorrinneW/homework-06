@@ -8,8 +8,9 @@ const forecastContainer = $('#forecastContainer');
 //global variables
 let inputCity;
 let geolocation;
+let onecall;
 let lat;
-let long;
+let lon;
 
 
 let history =  JSON.parse(localStorage.getItem('inputCity')) || [];
@@ -26,21 +27,22 @@ searchButton.click(function () {
 
   //convert inputCity to geographic coordinates
   geolocation = 'https://api.openweathermap.org/geo/1.0/direct?q='+ inputCity + '&appid=26296fad5e8eec50db14b2b3a9c853be';
-  
+
   fetch(geolocation)
     .then(response => response.json())
     .then(data => {
-      let last =data[data.length-1];
+      let last = data[data.length-1];
       lat = last.lat;
       lon = last.lon;
-      console.log(data);
-      console.log(lat, lon);
-    });
-});
+      onecall = 'https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+ lon +'&exclude=minutely,hourly,alerts&appid=26296fad5e8eec50db14b2b3a9c853be'
 
-function fetchApi(inputCity) {
-  
-}
+      fetch(onecall)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        })
+    });  
+});
 
 //create search history buttons
 
