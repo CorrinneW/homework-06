@@ -13,21 +13,19 @@ let lat;
 let lon;
 
 
-let history =  JSON.parse(localStorage.getItem('inputCity')) || [];
+const history =  JSON.parse(localStorage.getItem('inputCity')) || [];
 
 //filters duplicates from history
-let uniqueHistory = [...new Set(history)];
+const uniqueHistory = [...new Set(history)];
 
-//search bar and button
-searchButton.click(function () {
-  inputCity = searchBar.val()
-  //push current inputCity to cityArray in local storage
-  history.push(inputCity);
-  localStorage.setItem('inputCity', JSON.stringify(history));
+//get last city in history array
+const lastCity = history[history.length -1].value;
 
-  //convert inputCity to geographic coordinates
-  geolocation = 'https://api.openweathermap.org/geo/1.0/direct?q='+ inputCity + '&appid=26296fad5e8eec50db14b2b3a9c853be';
+//convert lastCity to geographic coordinates
+geolocation = 'https://api.openweathermap.org/geo/1.0/direct?q='+ lastCity + '&appid=26296fad5e8eec50db14b2b3a9c853be';
 
+//call openweathermap data for lastCity
+function buildContent() {
   fetch(geolocation)
     .then(response => response.json())
     .then(data => {
@@ -40,12 +38,18 @@ searchButton.click(function () {
         .then(response => response.json())
         .then(data => {
           console.log(data);
-          buildCurrent();
-          buildForecast();
         })
     });
-  
-  location.reload();  
+}  
+
+//search bar and button
+searchButton.click(function () {
+  inputCity = searchBar.val()
+  //push current inputCity to cityArray in local storage
+  history.push(inputCity);
+  localStorage.setItem('inputCity', JSON.stringify(history));
+  buildContent();
+  // location.reload();  
 });
 
 //create search history buttons
@@ -54,7 +58,7 @@ for(i = 0; i < uniqueHistory.length; i++) {
     $('<button/>')
       .addClass('.historyBtn')
       .text(uniqueHistory[i])
-  )
+  );
 }
 
 // //Current weather
