@@ -21,6 +21,9 @@ const history =  JSON.parse(localStorage.getItem('inputCity')) || [];
 
 //call openweathermap data for lastCity
 function buildContent(city) {
+  //reset results
+  currentWeather.innerHTML = '';
+  forecastContainer.innerHTML = '';
 
   geolocation = 'https://api.openweathermap.org/geo/1.0/direct?q='+ city + '&appid=26296fad5e8eec50db14b2b3a9c853be';
 
@@ -86,6 +89,9 @@ function buildContent(city) {
           contentContainer.appendChild(uvi);
 
           //5 day forecast
+          let forecastHeader = document.createElement('h2');
+          forecastHeader.textContent = "5-Day Forecast";
+          forecastContainer.appendChild(forecastHeader);
           //api supplies 7 days of weather, slice to get 5
           let fiveDays = data.daily.slice(1, 6);
           for(i=1; i<6; i++) {
