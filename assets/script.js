@@ -51,18 +51,35 @@ function buildContent(city) {
           //api supplies 7 days of weather, slice to get 5
           let fiveDays = data.daily.slice(1, 6);
           for(i=1; i<6; i++) {
-            //gets forecast date
-            let date = new Date().getDate() + i;
-            let dateText = document.createElement('p')
-            dateText.textContent = month + '/' + date + '/' + year;
-            console.log(dateText)
+            //create div to hold forecast & append to container
             let forecastContent = document.createElement('div');
-            let temperature = document.createElement('p');
-            temperature.classList.add('forecastTemp')
-            temperature.textContent = fiveDays[i-1].temp.day;
-            forecastContent.appendChild(dateText);
-            forecastContent.appendChild(temperature);
             forecastContainer.appendChild(forecastContent);
+
+            //get forecast date & append to forecastContent
+            let date = new Date().getDate() + i;
+            let dateText = document.createElement('h3')
+            dateText.textContent = month + '/' + date + '/' + year;
+            forecastContent.appendChild(dateText);
+
+            //get weather icon & append to forecastContent
+            let iconContainer = document.createElement('div');
+            forecastContent.appendChild(iconContainer);
+            let icon = document.createElement('img');
+            let iconCode = fiveDays[i-1].weather[0].icon;
+            let iconUrl = 'https://openweathermap.org/img/wn/'+ iconCode +'.png';
+            icon.setAttribute('src', iconUrl)
+            console.log(icon);
+            iconContainer.appendChild(icon);
+
+            //get forecast temp & append to forecastContent
+            let temperature = document.createElement('p');
+            temperature.textContent = 'Temp: ' + fiveDays[i-1].temp.day;
+            forecastContent.appendChild(temperature);
+
+            //get forecast humidity & append to forecastContent
+            let humidity = document.createElement('p');
+            humidity.textContent = 'Humidity: ' + fiveDays[i-1].humidity + '%';
+            forecastContent.appendChild(humidity);
           }
         })
     });
