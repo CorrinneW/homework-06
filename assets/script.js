@@ -37,15 +37,53 @@ function buildContent(city) {
       fetch(onecall)
         .then(response => response.json())
         .then(data => {
-          let currentDate = new Date().getDate()
-          //gets current month and year
-          let month = new Date().getMonth();
-          let year = new Date().getFullYear();
-          let currentTitle = document.createElement('h2')
-          currentTitle.textContent = city + ' (' +currentDate + '/' + month + '/' + year + ')';
-           
+          //converts onecall api dt to mm/dd/yyyy format
+          let dt = data.current.dt
+          let currentDate = new Date(dt * 1000).toLocaleDateString('en-US');
+
+          //create container for the currentWeather header
+          let headerContainer = document.createElement('div');
+          currentWeather.appendChild(headerContainer)
+
+          //create container for currentWeather content
+          let contentContainer = document.createElement('div');
+          currentWeather.appendChild(contentContainer);
+
+          //create currentHeader and append to headerContainer
+          let currentHeader = document.createElement('h2')
+          currentHeader.textContent = city + ' (' + currentDate + ')';
           console.log(data);
-          currentWeather.appendChild(currentTitle);
+          headerContainer.appendChild(currentHeader);
+
+          //get current weather icon and append to headerContainer
+          let iconContainer = document.createElement('div');
+          headerContainer.appendChild(iconContainer);
+          let icon = document.createElement('img');
+          let iconCode = data.current.weather[0].icon;
+          let iconUrl = 'https://openweathermap.org/img/wn/'+ iconCode +'@2x.png';
+          icon.setAttribute('src', iconUrl)
+          console.log(icon);
+          iconContainer.appendChild(icon);
+
+          //get current temp and append to contentContainer
+          let temperature = document.createElement('p');
+          temperature.textContent = 'Temperature: ' + data.current.temp;
+          contentContainer.appendChild(temperature);
+
+          //get current humidity and append to contentContainer
+          let humidity = document.createElement('p');
+          humidity.textContent = 'Humidity: ' + data.current.humidity;
+          contentContainer.appendChild(humidity);
+
+          //get current windspeed and append to contentContainer
+          let windspeed = document.createElement('p');
+          windspeed.textContent = 'Wind Speed: ' + data.current.wind_speed;
+          contentContainer.appendChild(windspeed);    
+          
+          //get current UV index and append to contentContainer
+          let uvi = document.createElement('p');
+          uvi.textContent = 'UV Index: ' + data.current.uvi;
+          contentContainer.appendChild(uvi);
 
           //5 day forecast
           //api supplies 7 days of weather, slice to get 5
@@ -56,9 +94,10 @@ function buildContent(city) {
             forecastContainer.appendChild(forecastContent);
 
             //get forecast date & append to forecastContent
-            let date = new Date().getDate() + i;
+            let dt = fiveDays[i-1].dt
+            let date = new Date(dt * 1000).toLocaleDateString('en-US');
             let dateText = document.createElement('h3')
-            dateText.textContent = month + '/' + date + '/' + year;
+            dateText.textContent = date;
             forecastContent.appendChild(dateText);
 
             //get weather icon & append to forecastContent
