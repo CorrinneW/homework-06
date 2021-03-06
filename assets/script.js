@@ -16,37 +16,48 @@ let lon;
 //initialize local storage
 const history =  JSON.parse(localStorage.getItem('city')) || [];
 
+//build buttons for each city in history
+window.onload = function () {
+  for (let i = 0; i < history.length; i++) {
+    historyBtn = document.createElement('button')
+    historyBtn.textContent = history[i];
+    searchHistory.prepend(historyBtn);
+
+    historyBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      city = event.target.textContent;
+      buildContent(city);
+    });
+  }
+}
+
 //search bar, search button and search history
 searchButton.addEventListener('click', function (event) {
   event.preventDefault();
   city = searchBar.value;
-
-  buildHistory(city);
-  buildContent(city);  
-});
-
-function buildHistory(city) {
-  //push current city to cityArray in local storage if it is not there already and add to search history
-  if(!history.includes(city)) {
+    //push current city to cityArray in local storage if it is not there already and add to search history
+  if (!history.includes(city)) {
     //adds user input to localStorage
     history.push(city);
     localStorage.setItem('city', JSON.stringify(history));
-    //adds latest input to search history as a button
-    for(let i = 0; i < history.length; i++) {
-      historyBtn = document.createElement('button');
-      historyBtn.innerHTML = history[i];
-      console.log(historyBtn.innerHTML)
-      searchHistory.prepend(historyBtn);
-    }
+    buildHistoryBtn(city);
   };
-}
-
-//click event runs the same buildContent function that is used to generate results when search button is clicked
-historyBtn.addEventListener('click', function (event) {
-  event.preventDefault();
-  city = historyBtn.innerHTML;
-  buildContent(city);
+  buildContent(city);  
 });
+
+function buildHistoryBtn(city) {
+  //adds latest input to search history as a button
+  historyBtn = document.createElement('button');
+  historyBtn.textContent = history[history.length - 1];
+  searchHistory.prepend(historyBtn);
+  //click event runs the same buildContent function that is used to generate results when search button is clicked
+  historyBtn.addEventListener('click', function (event) {
+    event.preventDefault();
+    city = event.target.textContent;
+    buildContent(city);
+    console.log(city);
+  });
+}
 
 
 //call openweathermap data for city and build current weather and forecast
