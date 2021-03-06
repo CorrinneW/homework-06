@@ -1,4 +1,4 @@
-//reference each HTML element
+//intialize query selectors
 const searchBar = document.querySelector('#searchBar');
 const searchButton = document.querySelector('#searchButton');
 const searchHistory = document.querySelector('#searchHistory');
@@ -6,22 +6,44 @@ const currentWeather = document.querySelector('#currentWeather');
 const forecastContainer = document.querySelector('#forecastContainer');
 
 //global variables
-let inputCity;
+let city;
 let geolocation;
 let onecall;
 let lat;
 let lon;
 
+//initialize local storage
+const history =  JSON.parse(localStorage.getItem('city')) || [];
 
-const history =  JSON.parse(localStorage.getItem('inputCity')) || [];
+//search bar, search button and search history
+searchButton.addEventListener('click', function (event) {
+  event.preventDefault();
+  city = searchBar.value;
 
-//filters duplicates from history
-// const uniqueHistory = [...new Set(history)];
+  //push current city to cityArray in local storage if it is not there already and add to search history
+  if(!history.includes(city)) {
+    history.push(city);
+    localStorage.setItem('city', JSON.stringify(history));
+
+    //adds latest input to search history as a button
+    let historyBtn = document.createElement('button');
+    historyBtn.textContent = city;
+    searchHistory.prepend(historyBtn);
+    //click event runs the same buildContent function that is used to generate results when search button is clicked
+    historyBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      city = historyBtn.textContent;
+      buildContent(city);
+    });
+  }
+
+  buildContent(city);  
+});
 
 
-//call openweathermap data for lastCity
+//call openweathermap data for city and build current weather and forecast
 function buildContent(city) {
-  //reset results
+  //resets results if there is already content
   currentWeather.innerHTML = '';
   forecastContainer.innerHTML = '';
 
@@ -129,32 +151,3 @@ function buildContent(city) {
         })
     });
 }  
-
-//search bar and button
-searchButton.addEventListener('click', function (event) {
-  event.preventDefault()
-  console.log('hello')
-  inputCity = searchBar.value
-  //push current inputCity to cityArray in local storage
-  //history.inlcudes or contains (check MDN)
-  //if (!history.includes) then ignore
-  history.push(inputCity);
-  localStorage.setItem('inputCity', JSON.stringify(history));
-  buildContent(inputCity);
-  // location.reload();  
-});
-
-// //create search history buttons
-// for(i = 0; i < uniqueHistory.length; i++) {
-//   searchHistory.prepend(
-//     $('<button/>')
-//       .addClass('.historyBtn')
-//       .text(uniqueHistory[i])
-//   );
-// }
-
-// //Current weather
-// function buildCurrent() {};
-
-// //forecast cards
-// function buildForecast();
