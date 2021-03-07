@@ -4,6 +4,7 @@ const searchButton = document.querySelector('#searchButton');
 const searchHistory = document.querySelector('#searchHistory');
 const currentWeather = document.querySelector('#currentWeather');
 const forecastContainer = document.querySelector('#forecastContainer');
+const cardContainer = document.querySelector('#cardContainer')
 
 //global variables
 let city;
@@ -21,6 +22,7 @@ window.onload = function () {
   for (let i = 0; i < history.length; i++) {
     historyBtn = document.createElement('button')
     historyBtn.textContent = history[i];
+    historyBtn.classList.add('btn', 'btn-secondary');
     searchHistory.prepend(historyBtn);
 
     historyBtn.addEventListener('click', function (event) {
@@ -36,7 +38,7 @@ searchButton.addEventListener('click', function (event) {
   event.preventDefault();
   city = searchBar.value;
     //push current city to cityArray in local storage if it is not there already and add to search history
-  if (!history.includes(city)) {
+  if (!history.includes(city) && searchBar.value!=='') {
     //adds user input to localStorage
     history.push(city);
     localStorage.setItem('city', JSON.stringify(history));
@@ -49,6 +51,7 @@ function buildHistoryBtn(city) {
   //adds latest input to search history as a button
   historyBtn = document.createElement('button');
   historyBtn.textContent = history[history.length - 1];
+  historyBtn.classList.add('btn', 'btn-secondary');
   searchHistory.prepend(historyBtn);
   //click event runs the same buildContent function that is used to generate results when search button is clicked
   historyBtn.addEventListener('click', function (event) {
@@ -138,6 +141,7 @@ function buildContent(city) {
           for(i=1; i<6; i++) {
             //create div to hold forecast & append to container
             let forecastContent = document.createElement('div');
+            forecastContent.classList.add('card', 'bg-primary', 'text-white', 'forecast');
             forecastContainer.appendChild(forecastContent);
 
             //get forecast date & append to forecastContent
@@ -152,7 +156,7 @@ function buildContent(city) {
             forecastContent.appendChild(iconContainer);
             let icon = document.createElement('img');
             let iconCode = fiveDays[i-1].weather[0].icon;
-            let iconUrl = 'https://openweathermap.org/img/wn/'+ iconCode +'.png';
+            let iconUrl = 'https://openweathermap.org/img/wn/'+ iconCode +'@2x.png';
             icon.setAttribute('src', iconUrl)
             console.log(icon);
             iconContainer.appendChild(icon);

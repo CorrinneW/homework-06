@@ -1,1 +1,120 @@
-style.css
+body{
+    box-sizing: border-box;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: #333333;
+    color: white;
+    padding: 15px;
+    border-radius: 0px;
+    margin: 0px;
+}
+
+.container-fluid {
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    justify-content:space-between;
+}
+
+#searchBox {
+    padding: 20px;
+}
+
+.input-group {
+   padding: 10px 0 10px 0; 
+}
+
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+.btn-secondary {
+    width: 100%;
+    border-radius: 0%;
+    border-bottom: white 1px solid;
+}
+
+#currentWeather {
+    margin: 20px 0px 0px 40px;
+    padding: 20px;
+    width: 100%;
+    height: auto;
+}
+
+#forecastContainer {
+    margin: 20px 0px 20px 40px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+/* #cardContainer {
+    display: flex;
+    flex-flow: row nowrap;
+} */
+
+.forecast {
+    width: 20%;
+    padding: 10px;
+    border: 2px white solid;
+}
+
+
+
+/* .container-fluid{
+    height: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+#searchBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+    background-color: lightgray;
+}
+
+#inputContainer {
+    padding: 10px 0px 10px 0px ;   
+}
+
+#searchHistory {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 0px;
+}
+
+.btn-secondary {
+    width: 100%;
+    border-radius: 0px;
+    border-bottom: 1px solid lightgray;
+}
+
+#currentWeather {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px 20px 50px;
+    border: 2px solid lightgray;
+}
+
+#forecastContainer {
+    display: flex;
+    flex-direction: column;
+} */
